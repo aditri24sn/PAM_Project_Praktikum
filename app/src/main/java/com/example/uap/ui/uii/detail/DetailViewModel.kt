@@ -23,7 +23,6 @@ class DetailViewModel : ViewModel() {
         _isLoading.value = true
         viewModelScope.launch {
             try {
-                // DIUBAH: Panggil fungsi baru getPlantByName
                 val response = ApiClient.instance.getPlantByName(plantName)
                 if (response.isSuccessful) {
                     _plantDetail.postValue(response.body()?.data)

@@ -25,11 +25,9 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Mengatur Toolbar sebagai Action Bar (tanpa menu)
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        // Hubungkan tombol Tambah List ke AddActivity
         binding.btnTambahList.setOnClickListener {
             startActivity(Intent(this, AddActivity::class.java))
         }
@@ -40,26 +38,22 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        // Panggil API setiap kali halaman ini ditampilkan untuk mendapatkan data terbaru
         mainViewModel.fetchPlants()
     }
 
     private fun setupRecyclerView() {
         plantAdapter = PlantAdapter(emptyList())
 
-        // Listener untuk klik seluruh item (sudah ada)
         plantAdapter.onItemClick = { selectedPlant ->
             val intent = Intent(this, DetailActivity::class.java)
             intent.putExtra("PLANT_NAME", selectedPlant.plantName)
             startActivity(intent)
         }
 
-        // Listener untuk tombol hapus (sudah ada)
         plantAdapter.onDeleteClick = { plantToDelete ->
             showDeleteConfirmationDialog(plantToDelete)
         }
 
-        // IMPLEMENTASIKAN LISTENER BARU INI
         plantAdapter.onDetailClick = { selectedPlant ->
             val intent = Intent(this, DetailActivity::class.java)
             intent.putExtra("PLANT_NAME", selectedPlant.plantName)

@@ -31,26 +31,15 @@ class LoginActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // Proses login user dengan Firebase
             auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
-                        // Jika login berhasil
                         Toast.makeText(this, "Login berhasil.", Toast.LENGTH_SHORT).show()
-
-                        // Pindah ke halaman utama aplikasi (MainActivity)
                         val intent = Intent(this, MainActivity::class.java)
-
-                        // Baris ini penting: Hapus semua activity sebelumnya (Opsi, Login)
-                        // dari history, sehingga pengguna tidak bisa kembali ke halaman login
-                        // dengan menekan tombol "back" setelah berhasil masuk.
                         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-
                         startActivity(intent)
                         finish()
-
                     } else {
-                        // Jika login gagal (misal: password salah, user tidak ada)
                         Toast.makeText(this, "Login gagal: ${task.exception?.message}", Toast.LENGTH_LONG).show()
                     }
                 }

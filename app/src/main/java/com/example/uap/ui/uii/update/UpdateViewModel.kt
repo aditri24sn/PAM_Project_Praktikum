@@ -22,7 +22,6 @@ class UpdateViewModel : ViewModel() {
         _isLoading.value = true
         viewModelScope.launch {
             try {
-                // Body JSON sekarang menggunakan data baru
                 val jsonObject = JSONObject().apply {
                     put("plant_name", newName)
                     put("description", newDescription)
@@ -31,7 +30,6 @@ class UpdateViewModel : ViewModel() {
                 val requestBody = jsonObject.toString()
                     .toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
 
-                // Panggil endpoint API dengan nama asli sebagai identifier di URL
                 val response = ApiClient.instance.updatePlant(originalName, requestBody)
 
                 if (response.isSuccessful) {

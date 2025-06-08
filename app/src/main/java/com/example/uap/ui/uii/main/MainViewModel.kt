@@ -35,7 +35,6 @@ class MainViewModel : ViewModel() {
 
                 if (response.isSuccessful) {
                     val plantData = response.body()?.data
-                    // Log untuk sukses
                     Log.d("ViewModelData", "Response successful. Data count: ${plantData?.size ?: 0}")
 
                     if (plantData.isNullOrEmpty()) {
@@ -46,12 +45,10 @@ class MainViewModel : ViewModel() {
 
                 } else {
                     val errorBody = response.errorBody()?.string()
-                    // Log untuk Gagal (misal: error 404 atau 500)
                     Log.e("ViewModelData", "Response failed. Code: ${response.code()}, Message: $errorBody")
                     _errorMessage.postValue("Gagal memuat data: Error ${response.code()}")
                 }
             } catch (e: Exception) {
-                // Log untuk Exception (misal: tidak ada koneksi internet)
                 Log.e("ViewModelData", "Exception occurred: ${e.message}", e)
                 _errorMessage.postValue("Terjadi kesalahan koneksi.")
             } finally {
@@ -60,23 +57,19 @@ class MainViewModel : ViewModel() {
         }
     }
 
-    fun deletePlant(plantName: String) { // DIUBAH: parameter menjadi String
+    fun deletePlant(plantName: String) {
         viewModelScope.launch {
             try {
-                // Panggil endpoint delete dari API
                 val response = ApiClient.instance.deletePlant(plantName)
 
                 if (response.isSuccessful) {
-                    // Kirim status sukses
                     _deleteStatus.postValue(Result.success("Data berhasil dihapus"))
-                    // Setelah berhasil dihapus, panggil lagi fetchPlants untuk me-refresh daftar
                     fetchPlants()
                 } else {
                     val errorBody = response.errorBody()?.string()
                     _deleteStatus.postValue(Result.failure(Exception("Gagal menghapus data: $errorBody")))
                 }
             } catch (e: Exception) {
-                // Tangani jika ada error koneksi
                 _deleteStatus.postValue(Result.failure(e))
             }
         }

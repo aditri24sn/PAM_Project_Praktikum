@@ -12,10 +12,8 @@ data class Plant(
     val description: String,
 
     @SerializedName("price")
-    val price: String, // Sesuai spek API, harga adalah VARCHAR (String)
+    val price: String,
 
-    // Untuk sementara, kita asumsikan ada URL gambar di API
-    // Jika tidak ada, Anda bisa menghapus atau mengabaikan properti ini.
     @SerializedName("image_url")
     val imageUrl: String? = null
 )

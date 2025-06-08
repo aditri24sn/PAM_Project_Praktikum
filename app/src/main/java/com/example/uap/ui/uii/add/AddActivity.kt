@@ -5,7 +5,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.example.uap.databinding.ActivityAddBinding // Pastikan nama binding ini benar
+import com.example.uap.databinding.ActivityAddBinding
 
 class AddActivity : AppCompatActivity() {
 
@@ -17,13 +17,11 @@ class AddActivity : AppCompatActivity() {
         binding = ActivityAddBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Atur listener untuk tombol Tambah
         binding.btnSubmit.setOnClickListener {
             val name = binding.etNama.text.toString().trim()
             val price = binding.etHarga.text.toString().trim()
             val description = binding.etDeskripsi.text.toString().trim()
 
-            // Validasi input tidak boleh kosong
             if (name.isNotEmpty() && price.isNotEmpty() && description.isNotEmpty()) {
                 addViewModel.addPlant(name, description, price)
             } else {
@@ -31,21 +29,18 @@ class AddActivity : AppCompatActivity() {
             }
         }
 
-        // Panggil fungsi untuk mengamati perubahan dari ViewModel
         observeViewModel()
     }
 
     private fun observeViewModel() {
-        // Amati status loading untuk menampilkan/menyembunyikan ProgressBar
         addViewModel.isLoading.observe(this) { isLoading ->
             binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         }
 
-        // Amati hasil penambahan data
         addViewModel.addResult.observe(this) { result ->
             result.onSuccess { message ->
                 Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-                finish() // Kembali ke MainActivity setelah sukses
+                finish()
             }
             result.onFailure { error ->
                 Toast.makeText(this, error.message, Toast.LENGTH_LONG).show()

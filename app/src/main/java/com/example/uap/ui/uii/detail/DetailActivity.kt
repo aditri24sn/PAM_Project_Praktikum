@@ -37,10 +37,8 @@ class DetailActivity : AppCompatActivity() {
         observeViewModel()
 
         binding.btnUpdate.setOnClickListener {
-            // Di dalam DetailActivity.kt, listener untuk btnUpdate
             currentPlant?.let { plant ->
                 val intent = Intent(this, UpdateActivity::class.java).apply {
-                    // DIUBAH: Tidak perlu kirim ID, nama sudah jadi kunci utama
                     putExtra("PLANT_NAME", plant.plantName)
                     putExtra("PLANT_PRICE", plant.price)
                     putExtra("PLANT_DESC", plant.description)

@@ -8,36 +8,28 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.uap.R
-import com.example.uap.databinding.ActivityAddBinding // PENTING: Kita gunakan binding dari Activity Add
+import com.example.uap.databinding.ActivityAddBinding
 
 class UpdateActivity : AppCompatActivity() {
-
-    // Kita gunakan binding dari layout "tambah" karena layoutnya sama
     private lateinit var binding: ActivityAddBinding
     private val updateViewModel: UpdateViewModel by viewModels()
     private var originalPlantName: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Inflate layout activity_add.xml
         binding = ActivityAddBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        // 1. Ambil data dari Intent dan langsung isi ke dalam form
         populateFormWithIntentData()
 
-        // 2. Ubah teks di komponen UI sesuai konteks "Update"
         binding.toolbar.findViewById<TextView>(R.id.btnSubmit)?.text = "Update Item" // Ganti ID jika ada
         binding.btnSubmit.text = "Simpan" // Mengubah teks tombol
 
-        // 3. Set listener untuk tombol "Simpan"
         binding.btnSubmit.setOnClickListener {
             val name = binding.etNama.text.toString().trim()
             val price = binding.etHarga.text.toString().trim()
             val description = binding.etDeskripsi.text.toString().trim()
 
             if (name.isNotEmpty() && price.isNotEmpty() && description.isNotEmpty()) {
-                // Panggil ViewModel untuk melakukan update
                 originalPlantName?.let {
                     updateViewModel.updatePlant(it, name, description, price)
                 }
@@ -46,7 +38,6 @@ class UpdateActivity : AppCompatActivity() {
             }
         }
 
-        // 4. Amati hasil proses update dari ViewModel
         observeViewModel()
     }
 
@@ -76,7 +67,7 @@ class UpdateActivity : AppCompatActivity() {
         updateViewModel.updateResult.observe(this) { result ->
             result.onSuccess { message ->
                 Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-                finish() // Tutup halaman update dan kembali ke halaman sebelumnya
+                finish()
             }
             result.onFailure { error ->
                 Toast.makeText(this, error.message, Toast.LENGTH_LONG).show()

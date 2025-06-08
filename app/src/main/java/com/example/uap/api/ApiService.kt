@@ -20,18 +20,15 @@ interface ApiService {
     @POST("plant/new")
     suspend fun createPlant(@Body requestBody: RequestBody): Response<ResponseBody>
 
-    // DIUBAH: Menggunakan {name} sebagai path dan parameternya String
     @GET("plant/{name}")
     suspend fun getPlantByName(@Path("name") plantName: String): Response<SinglePlantResponse>
 
-    // DIUBAH: Menggunakan {name} sebagai path dan parameternya String
     @PUT("plant/{name}")
     suspend fun updatePlant(
         @Path("name") plantName: String,
         @Body requestBody: RequestBody
     ): Response<ResponseBody>
 
-    // DIUBAH: Menggunakan {name} sebagai path dan parameternya String
     @DELETE("plant/{name}")
     suspend fun deletePlant(@Path("name") plantName: String): Response<ResponseBody>
 }

@@ -1,5 +1,4 @@
-package com.example.uap.ui.uii.main // Pastikan package name sudah benar
-
+package com.example.uap.ui.uii.main
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -12,8 +11,6 @@ import java.text.NumberFormat
 import java.util.Locale
 
 class PlantAdapter(private var plantList: List<Plant>) : RecyclerView.Adapter<PlantAdapter.PlantViewHolder>() {
-
-    // Listener untuk klik pada item
     var onItemClick: ((Plant) -> Unit)? = null
     var onDeleteClick: ((Plant) -> Unit)? = null
     var onDetailClick: ((Plant) -> Unit)? = null
@@ -25,7 +22,6 @@ class PlantAdapter(private var plantList: List<Plant>) : RecyclerView.Adapter<Pl
 
     override fun onBindViewHolder(holder: PlantViewHolder, position: Int) {
         val plant = plantList[position]
-        // Teruskan semua listener ke ViewHolder
         holder.bind(plant, onItemClick, onDeleteClick, onDetailClick)
     }
 
@@ -37,7 +33,6 @@ class PlantAdapter(private var plantList: List<Plant>) : RecyclerView.Adapter<Pl
         Log.d("AdapterUpdate", "Adapter diupdate dengan ${this.plantList.size} item.")
     }
 
-    // ViewHolder tidak perlu diubah, karena logika bind sudah lengkap
     class PlantViewHolder(private val binding: ItemPlantBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(

@@ -11,12 +11,8 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 
 class AddViewModel : ViewModel() {
-
-    // LiveData untuk mengirimkan hasil (sukses/gagal) ke Activity
     private val _addResult = MutableLiveData<Result<String>>()
     val addResult: LiveData<Result<String>> = _addResult
-
-    // LiveData untuk status loading
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
@@ -24,18 +20,14 @@ class AddViewModel : ViewModel() {
         _isLoading.value = true
         viewModelScope.launch {
             try {
-                // 1. Membuat objek JSON dari input pengguna
                 val jsonObject = JSONObject().apply {
                     put("plant_name", name)
                     put("description", description)
                     put("price", price)
                 }
-
-                // 2. Mengubah string JSON menjadi RequestBody yang bisa dikirim oleh Retrofit
                 val requestBody = jsonObject.toString()
                     .toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
 
-                // 3. Memanggil API untuk membuat data baru
                 val response = ApiClient.instance.createPlant(requestBody)
 
                 if (response.isSuccessful) {
